@@ -1,5 +1,6 @@
 import cv2
 import os
+import dataHandler
 
 def brighten_face(img_path):
     img = cv2.imread(img_path)
