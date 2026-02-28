@@ -15,6 +15,7 @@ def main():
         choice = input().lower()
         if choice == 'yes' or choice == 'y':
             img_catcher.faceCreator(data['path'])
+            recogniser.analyzing(data['path'])
     
     while True:
         print("1. Registering \n2. Attending \n3. Exit")
@@ -24,6 +25,7 @@ def main():
             checker = int(input("Enter code: "))
             if dataHandler.hash_pw(checker) == data['code']:
                 img_catcher.faceCreator(data['path'])
+                dataHandler.refresh_db(data['path'])
         
         elif choice == 2:
             register = recogniser.recognise(data['path'],img_catcher.capture(data['folder']))
