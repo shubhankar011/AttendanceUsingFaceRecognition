@@ -1,34 +1,12 @@
-import tkinter as tk
+import os, json, hashlib, tkinter as tk
 from tkinter import filedialog
-import json, os, hashlib
-import recogniser
+from PyQt6.QtWidgets import QInputDialog, QLineEdit
 
 BASE_CONFIG_PATH = os.path.join(os.path.expanduser("~"), ".attendance_system")
 if not os.path.exists(BASE_CONFIG_PATH):
     os.makedirs(BASE_CONFIG_PATH)
 
 MASTER_CONF = os.path.join(BASE_CONFIG_PATH, "master_path.json")
-
-def save_student_info(data, name, roll_no):
-    STUDENT_DB = data['student_json']
-    students = []
-    if os.path.exists(STUDENT_DB):
-        with open(STUDENT_DB, "r") as f:
-            students = json.load(f)
-    with open(STUDENT_DB, 'r') as f:
-        st = json.load(f)
-        for i in st:
-            if roll_no in st:
-                print("It is already registered!!!")
-                return
-    students.append({
-        "name": name, 
-        "roll_no": roll_no
-    })
-    
-    with open(STUDENT_DB, "w") as f:
-        json.dump(students, f, indent=4)
-    print(f"Successfully registered {name} (Roll: {roll_no})")
 
 def loading():
     if os.path.exists(MASTER_CONF):
@@ -70,27 +48,32 @@ def loading():
         json.dump(setup_data, f, indent=4)
         
     return setup_data
-    return setup_data
 
 def saving(data):
-    DB_FILE = os.path.join(data['directory'], "dir.json")
-    with open(DB_FILE, "w") as f:
+    local_config_path = os.path.join(data['directory'], "dir.json")
+    with open(local_config_path, "w") as f:
         json.dump(data, f, indent=4)
-# print(loading())
 
 def hash_pw(pin):
     return hashlib.sha256(str(pin).encode()).hexdigest()
 
-def makingSetup(data):
-    data['class'] = input("Enter your class: ")
-    pin = int(input("Enter 4-Pin Code: "))
-    data['code'] = hash_pw(pin)
-    saving(data)
+def makingSetup(data, parent):
+    name, ok1 = QInputDialog.getText(parent, "Setup", "Enter your Class:")
+    if ok1 and name:
+        data['class'] = name
+        pin, ok2 = QInputDialog.getText(parent, "Setup", "Enter 4-Pin Code:", QLineEdit.EchoMode.Password)
+        if ok2 and pin:
+            data['code'] = hash_pw(pin)
+            saving(data)
+            return True
+    return False
 
-def refresh_db(db_path):
-    for file in os.listdir(db_path):
-        if file.endswith(".pkl"):
-            file_path = os.path.join(db_path, file)
-            os.remove(file_path)
-            print(f"{file} removed")
-    recogniser.analyzing(db_path)
+def save_student_info(data, name, roll_no):
+    json_path = data['student_json']
+    students = []
+    if os.path.exists(json_path):
+        with open(json_path, "r") as f:
+            students = json.load(f)
+    students.append({"name": name, "roll_no": roll_no})
+    with open(json_path, "w") as f:
+        json.dump(students, f, indent=4)

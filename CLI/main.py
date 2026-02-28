@@ -5,14 +5,13 @@ import os
 
 def student_info(data):
     registered_new = False
-                
+    print("\nStudent Registration")
     while True:
-        print("\nStudent Registration")
         name = input("Enter Student Name (or 'q' to quit): ").strip().replace(" ","_")
         if name.lower() == 'q': 
             break
         roll_no = input("Enter Roll Number: ").strip()
-        dataHandler.save_student_info(name, roll_no)
+        dataHandler.save_student_info(data, name, roll_no)
         img_catcher.faceCreator(data['path'], name=name)
                     
         registered_new = True
@@ -45,7 +44,7 @@ def main():
                 student_info(data)
         
         elif choice == 2:
-            register = recogniser.recognise(data['path'],img_catcher.capture(data['folder']))
+            register = recogniser.recognise(data['path'],img_catcher.capture(data['folder']), data['directory'], data['student_json'])
         
         elif choice == 3:
             break

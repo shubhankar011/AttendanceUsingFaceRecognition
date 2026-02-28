@@ -12,16 +12,22 @@ from deepface import DeepFace
 import pandas as pd
 import csv, datetime
 
-def logging_attendance(img_path):
+def logging_attendance(img_path, dir):
     name = os.path.basename(img_path)
     today = datetime.datetime.now().strftime('%Y-%m-%d')
+    att = os.path.join(dir, "attendance_log.csv")
 
-    with open("attendance_log.csv", mode='r',newline='') as f:
+    if not os.path.exists(att):
+        with open(att, mode='w', newline='') as f:
+            writer = csv.writer(f)
+            writer.writerow(["Name", "Date", "Time"])
+
+    with open(att, mode='r',newline='') as f:
         if f"{name},{today}" in f.read():
                 print(f"{name} is already marked present for today.")
                 return
 
-    with open("attendance_log.csv", mode='a', newline='') as f:
+    with open(att, mode='a', newline='') as f:
         writer = csv.writer(f)
         writer.writerow([
             name, 
@@ -48,7 +54,7 @@ def analyzing(db_path):
     
     print("Analysis complete. Memory file (.pkl) created.")
 
-def recognise(db_path, img_path):
+def recognise(db_path, img_path, dir, st_db):
     results = DeepFace.find(img_path, 
                             db_path = db_path, 
                             model_name = 'VGG-Face', 
@@ -64,16 +70,16 @@ def recognise(db_path, img_path):
             matched_name = os.path.basename(row['identity']).split('.')[0]
             
             roll_no = None
-            if os.path.exists("student.json"):
-                with open("student.json", "r") as f:
+            if os.path.exists(st_db):
+                with open(st_db, "r") as f:
                     students = json.load(f)
                     for s in students:
                         if s['name'] == matched_name:
-                            roll_no = s['roll_no']
+                            roll_no = s.get('roll_no')
                             break
 
             print(f"Match found! Name: {matched_name} | Roll: {roll_no}")
-            logging_attendance(row['identity']) 
+            logging_attendance(row['identity'],dir ) 
             return matched_name
         else:
             print(f"Person looks familiar (Dist: {distance:.2f}), but not sure enough.")
