@@ -1,6 +1,13 @@
 import cv2
 import os
 
+def brighten_face(img_path):
+    img = cv2.imread(img_path)
+    img_yuv = cv2.cvtColor(img, cv2.COLOR_BGR2YUV)
+    img_yuv[:,:,0] = cv2.equalizeHist(img_yuv[:,:,0])
+    res = cv2.cvtColor(img_yuv, cv2.COLOR_YUV2BGR)
+    cv2.imwrite(img_path, res)
+
 def Camera(i,path):
     cap = cv2.VideoCapture(0)
     print("Press 's' to save and 'q' for quit")
@@ -23,6 +30,7 @@ def Camera(i,path):
             cv2.imwrite(full_path, frame)
             print(f"Saved: {full_path}")
             counter += 1
+            brighten_face(full_path)
             if i == 1:
                 break
         elif key == ord('q'):
