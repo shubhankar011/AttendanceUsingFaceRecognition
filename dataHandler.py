@@ -5,15 +5,14 @@ import json, os, hashlib
 root = tk.Tk()
 root.withdraw()
 DB_FILE = "dir.json"
-entry = tk.Entry(root)
 
 def loading():
     if not os.path.exists(DB_FILE):
         path = "dp_path"
         folder = "folder"
         directory = filedialog.askdirectory(title="Select a Folder")
-        path = directory + path
-        folder = directory + folder
+        path = os.path.join(directory,path)
+        folder = os.path.join(directory,folder)
         os.makedirs(folder)
         os.makedirs(path)
         return {"folder":folder,"path":path,"directory":directory,"class":None}

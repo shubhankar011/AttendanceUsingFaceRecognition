@@ -14,13 +14,22 @@ def recognise(db_path, img_path):
     results = DeepFace.find(img_path, 
                             db_path = db_path, 
                             model_name = 'VGG-Face', 
-                            enforce_detection = False)
+                            enforce_detection = False,
+                            distance_metric='cosine'
+                            )
     
     if len(results) > 0 and not results[0].empty:
-        best_match = results[0].iloc[0]['identity']
-        print(f"Match found! This looks like: {best_match}")
+        row = results[0].iloc[0]
+        distance = row['distance']
+        
+        if distance < 0.55: 
+            print(f"Match found! {row['identity']} (Dist: {distance:.2f})")
+            return row['identity']
+        else:
+            print(f"Person looks familiar (Dist: {distance:.2f}), but not sure enough.")
+
     else:
-        print("No match found in the database.")
+        print("No match found.")
 
     return results
 
