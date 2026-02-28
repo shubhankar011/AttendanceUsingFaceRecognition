@@ -9,7 +9,7 @@ def brighten_face(img_path):
     res = cv2.cvtColor(img_yuv, cv2.COLOR_YUV2BGR)
     cv2.imwrite(img_path, res)
 
-def Camera(i,path):
+def Camera(i,path, name = "capture"):
     cap = cv2.VideoCapture(0)
     print("Press 's' to save and 'q' for quit")
     if not cap.isOpened():
@@ -25,15 +25,14 @@ def Camera(i,path):
         cv2.imshow('Live Feed', frame)
 
         key = cv2.waitKey(1) & 0xFF
-        if key == ord('s'):
-            img_name = f"capture_{counter}.jpg"
+        if key == ord('s') or key == ord('S'):
+            img_name = f"{name}.jpg"
             full_path = os.path.join(path, img_name)
             cv2.imwrite(full_path, frame)
             print(f"Saved: {full_path}")
             counter += 1
             brighten_face(full_path)
-            if i == 1:
-                break
+            break
         elif key == ord('q'):
             break
     cap.release()
@@ -41,14 +40,12 @@ def Camera(i,path):
     if i == 1: 
         return full_path
           
-def faceCreator(save_path):
-    i = 0
+def faceCreator(save_path, name):
     if not os.path.exists(save_path):
         os.makedirs(save_path)
-    Camera(i,save_path)
+    Camera(0,save_path,name)
     
 def capture(folder):
-    i = 1
     if not os.path.exists(folder):
         os.makedirs(folder)
-    return Camera(i,folder)
+    return Camera(1,folder)
