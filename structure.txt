@@ -1,0 +1,17 @@
+AttendanceUsingFaceRecognition/
+│
+├── GUI/
+│   ├── GUI_Main.py         # The main entry point (Run this to start)
+│   └── (Other UI assets)
+│
+├── dataHandler.py          # Manages JSON files, folder paths, and security
+├── recogniser.py           # DeepFace logic, image analysis, and CSV logging
+│
+├── .attendance_system/     # Hidden folder in User Home (Stores the "Master Pointer")
+│   └── master_path.json    # Remembers where your actual database folder is
+│
+└── [Your Selected DB Folder]/
+    ├── dir.json            # Local settings (Class Name, Encrypted PIN)
+    ├── student.json        # Student Registry (Name linked to Roll No)
+    ├── attendance_log.csv  # The final attendance records
+    └── dp_path/            # Folder containing student .jpg images
