@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import filedialog
-import json, os, hashlib
+import json, os, hashlib, csv
 import recogniser
 
 BASE_CONFIG_PATH = os.path.join(os.path.expanduser("~"), ".attendance_system")
@@ -59,6 +59,7 @@ def loading():
         "path": path,
         "folder": folder,
         "student_json": os.path.join(directory, "student.json"),
+        "att_dir": os.path.join(directory,"attendance_log.csv"),
         "class": None,
         "code": None
     }
@@ -98,6 +99,9 @@ def refresh_db(db_path):
 def showData(st_db):
     with open(st_db, 'r') as f:
             data = json.load(f)
+            print("Total Students are: ", len(data))
+            print("-"*10)
+            alt = True
             for i in data:
                 for key,value in i.items():
                     print(key,value)
