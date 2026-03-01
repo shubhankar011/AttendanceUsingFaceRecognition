@@ -192,23 +192,6 @@ cd CLI
 python main.py
 ```
 
-**CLI Commands:**
-```bash
-# Register a new student
-python main.py --register --name "John Doe" --id "STU001" --image "path/to/photo.jpg"
-
-# Mark attendance
-python main.py --attendance --source camera
-# OR
-python main.py --attendance --source "path/to/image.jpg"
-
-# View attendance
-python main.py --view --date "2024-02-10"
-
-# Export attendance
-python main.py --export --date "2024-02-10" --format csv
-```
-
 ## 🔧 Technologies Used
 
 <div align="center">
@@ -237,7 +220,7 @@ python main.py --export --date "2024-02-10" --format csv
 | **Pandas** | Data manipulation and analysis (used by DeepFace for efficient data search) |
 | **NumPy** | Numerical computing and array operations |
 
-### **Additional Libraries**
+### **Additional Libraries - In Next Feature**
 
 | Technology | Purpose |
 |------------|---------|
