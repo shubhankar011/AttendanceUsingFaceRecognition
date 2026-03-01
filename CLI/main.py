@@ -48,7 +48,7 @@ def main():
         
         elif choice == 3:
             print("-"*10)
-            dataHandler.showData(data['student_json'])
+            dataHandler.showData(data['student_json'],data['att_dir'])
             print("-"*10)
         
         elif choice == 4:

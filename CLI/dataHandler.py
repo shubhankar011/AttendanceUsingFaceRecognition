@@ -96,7 +96,12 @@ def refresh_db(db_path):
             print(f"{file} removed")
     recogniser.analyzing(db_path)
 
-def showData(st_db):
+def showData(st_db, att):
+    att_data = []
+    with open(att,'r') as f:
+        reader = csv.reader(f)
+        for row in reader:
+            att_data.append(row)
     with open(st_db, 'r') as f:
             data = json.load(f)
             print("Total Students are: ", len(data))
@@ -105,4 +110,12 @@ def showData(st_db):
             for i in data:
                 for key,value in i.items():
                     print(key,value)
+                    if alt:
+                        print("Attended on: ",end="")
+                        for j in att_data:
+                            if j[0] == value:
+                                print(j[1], end=" ")
+                        alt = False
+                        # print("\n")
+                alt = True
                 print("-"*10)

@@ -13,7 +13,7 @@ import pandas as pd
 import csv, datetime
 
 def logging_attendance(img_path, dir):
-    name = os.path.basename(img_path)
+    name = os.path.basename(img_path).split('.')[0]
     today = datetime.datetime.now().strftime('%Y-%m-%d')
     att = os.path.join(dir, "attendance_log.csv")
 
