@@ -94,3 +94,11 @@ def refresh_db(db_path):
             os.remove(file_path)
             print(f"{file} removed")
     recogniser.analyzing(db_path)
+
+def showData(st_db):
+    with open(st_db, 'r') as f:
+            data = json.load(f)
+            for i in data:
+                for key,value in i.items():
+                    print(key,value)
+                print("-"*10)

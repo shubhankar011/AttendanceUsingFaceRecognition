@@ -35,7 +35,7 @@ def main():
             student_info(data)
     
     while True:
-        print("1. Registering \n2. Attending \n3. Exit")
+        print("1. Registering \n2. Attending \n3. Show Student Data \n4. Exit")
         choice = int(input("Enter your choice: "))
 
         if choice == 1:
@@ -47,6 +47,11 @@ def main():
             register = recogniser.recognise(data['path'],img_catcher.capture(data['folder']), data['directory'], data['student_json'])
         
         elif choice == 3:
+            print("-"*10)
+            dataHandler.showData(data['student_json'])
+            print("-"*10)
+        
+        elif choice == 4:
             break
 if __name__ == "__main__":
     main()
