@@ -49,7 +49,7 @@ def recognise(db_path, img_path, student_path):
         )
     except Exception as e:
         print(f"DeepFace Error: {e}")
-        return None, None
+        return None, None, None
     
     if len(results) > 0 and not results[0].empty:
         row = results[0].iloc[0]
@@ -67,4 +67,4 @@ def recognise(db_path, img_path, student_path):
 
             log_msg = logging_attendance(row['identity'], os.path.dirname(student_path))
             return matched_name, roll_no, log_msg
-    return None, None
+    return None, None, None

@@ -1,4 +1,4 @@
-import os, json, hashlib, tkinter as tk
+import os, json, hashlib,csv, tkinter as tk
 from tkinter import filedialog
 from PyQt6.QtWidgets import QInputDialog, QLineEdit
 
@@ -37,6 +37,7 @@ def loading():
         "path": path,
         "folder": folder,
         "student_json": os.path.join(directory, "student.json"),
+        "att_dir": os.path.join(directory,"attendance_log.csv"),
         "class": None,
         "code": None
     }
@@ -77,3 +78,39 @@ def save_student_info(data, name, roll_no):
     students.append({"name": name, "roll_no": roll_no})
     with open(json_path, "w") as f:
         json.dump(students, f, indent=4)
+
+def showData(st_db, att):
+    lines = []
+    att_data = []
+
+    if os.path.exists(att):
+        with open(att, 'r') as f:
+            reader = csv.reader(f)
+            for row in reader:
+                if len(row) >= 2:
+                    att_data.append(row)
+
+    data = []
+    if os.path.exists(st_db):
+        with open(st_db, 'r') as f:
+            try:
+                data = json.load(f)
+            except json.JSONDecodeError:
+                data = []
+
+    lines.append(f"Total Students: {len(data)}")
+    lines.append("-" * 10)
+
+    for student in data:
+        name = student.get("name", "")
+        roll = student.get("roll_no", "")
+        lines.append(f"Name: {name}")
+        lines.append(f"Roll: {roll}")
+        dates = [row[1] for row in att_data if name in row]
+        if dates:
+            lines.append("Attended on: " + ", ".join(dates))
+        else:
+            lines.append("Attended on: None")
+        lines.append("-" * 10)
+
+    return "\n".join(lines)

@@ -24,6 +24,7 @@ class AttendanceApp(QMainWindow):
         
         self.btn_reg = QPushButton("1. Register Student")
         self.btn_attend = QPushButton("2. Mark Attendance")
+        self.btn_showData = QPushButton("3. Show Data")
         self.btn_reset = QPushButton("Reset System")
         self.btn_reset.setStyleSheet("background-color: #f44336; color: white;")
         
@@ -34,6 +35,7 @@ class AttendanceApp(QMainWindow):
         btn_layout = QHBoxLayout()
         btn_layout.addWidget(self.btn_reg)
         btn_layout.addWidget(self.btn_attend)
+        btn_layout.addWidget(self.btn_showData)
         btn_layout.addWidget(self.btn_reset)
         
         layout.addWidget(self.camera_label, alignment=Qt.AlignmentFlag.AlignCenter)
@@ -51,6 +53,7 @@ class AttendanceApp(QMainWindow):
 
         self.btn_attend.clicked.connect(self.do_attendance)
         self.btn_reg.clicked.connect(self.do_registration)
+        self.btn_showData.clicked.connect(self.ShowingData)
         self.btn_reset.clicked.connect(self.reset_database)
 
         if not self.data.get('code') or not self.data.get('class'):
@@ -95,6 +98,16 @@ class AttendanceApp(QMainWindow):
             else:
                 self.log_box.append("Unknown Person.")
 
+    def ShowingData(self):
+        """Fetch student & attendance info and display in the log box."""
+        info = dataHandler.showData(self.data['student_json'], self.data['att_dir'])
+        if info:
+            # QTextEdit.append automatically adds a newline so split lines to avoid
+            # an extremely long single line.
+            for line in info.splitlines():
+                self.log_box.append(line)
+        else:
+            self.log_box.append("No student data available.")
     def do_registration(self):
        
         pin, ok = QInputDialog.getText(self, "Security", "Enter Admin PIN:", QLineEdit.EchoMode.Password)
