@@ -8,6 +8,7 @@
 [![TensorFlow](https://img.shields.io/badge/TensorFlow-2.15.0-FF6F00?style=for-the-badge&logo=tensorflow&logoColor=white)](https://www.tensorflow.org/)
 [![Keras](https://img.shields.io/badge/Keras-2.15.0-D00000?style=for-the-badge&logo=keras&logoColor=white)](https://keras.io/)
 [![PyQt6](https://img.shields.io/badge/PyQt6-Latest-41CD52?style=for-the-badge&logo=qt&logoColor=white)](https://www.riverbankcomputing.com/software/pyqt/)
+[![DeepFace](https://img.shields.io/badge/DeepFace-Latest-41CD52?style=for-the-badge&logo=dl&logoColor=blue)](https://www.riverbankcomputing.com/software/pyqt/)
 [![License](https://img.shields.io/badge/License-Unrestricted-green?style=for-the-badge)](LICENSE)
 
 **An intelligent face recognition system for automated attendance management with both GUI and CLI interfaces**
