@@ -451,6 +451,9 @@ For detailed documentation, visit:
 - OpenCV community for computer vision tools
 - All contributors and users of this project
 
+## 1️⃣ First Update
+
+- Added show data function to show the record of every student (will modify this later) in both GUI and CLI
 ---
 
 <div align="center">
